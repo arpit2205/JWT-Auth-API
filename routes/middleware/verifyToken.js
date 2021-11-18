@@ -12,6 +12,7 @@ const verifyToken = (req, res, next) => {
   try {
     // Authorization header format: Bearer <token>
     const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+    req.body.user = decoded;
   } catch (error) {
     return res
       .status(401)

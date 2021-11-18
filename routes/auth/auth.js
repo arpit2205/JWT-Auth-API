@@ -36,6 +36,9 @@ router.post("/register", async (req, res) => {
     const user = await User.create({
       username,
       password: hashedPassword,
+
+      // Default values for a user
+      isAdmin: false,
     });
 
     res.status(201).json({ status: "success", data: { user } });
@@ -80,7 +83,7 @@ router.post("/login", async (req, res) => {
 
   if (isPasswordValid) {
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      { id: user._id, username: user.username, isAdmin: user.isAdmin },
       process.env.JWT_SECRET
     );
 

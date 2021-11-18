@@ -11,6 +11,10 @@ const userSchema = new mongooose.Schema(
       type: String,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     collection: "users",
