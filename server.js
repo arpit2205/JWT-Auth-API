@@ -17,13 +17,11 @@ mongoose.connect(
 
 // Routes
 const authRoutes = require("./routes/auth/auth");
-const protectedRoute = require("./routes/home/protectedRoute");
 
 // Middleware
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/home", protectedRoute);
 
 app.listen(4000, () => {
   console.log("Server started on port 4000");

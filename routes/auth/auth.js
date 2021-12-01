@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
   if (!username || typeof username !== "string" || username.length < 3)
     return res
       .status(400)
-      .json({ status: "error", error: { message: "Invalid username" } });
+      .json({ status: "error", message: "Invalid username" });
 
   if (
     !plainTextPassword ||
@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
   )
     return res
       .status(400)
-      .json({ status: "error", error: { message: "Invalid password" } });
+      .json({ status: "error", message: "Invalid password" });
 
   //Hashing the password
   const hashedPassword = await bcrypt.hash(plainTextPassword, 10);
@@ -41,17 +41,17 @@ router.post("/register", async (req, res) => {
       isAdmin: false,
     });
 
-    res.status(201).json({ status: "success", data: { user } });
+    res.status(201).json({ status: "success", data: user });
   } catch (error) {
     // MongoDB unique index error
     if (error.code === 11000) {
       return res.status(400).json({
         status: "error",
-        error: { message: "Username already exists" },
+        message: "Username already exists",
       });
     }
 
-    return res.json({ status: "error", error });
+    return res.json({ status: "error", message: error });
   }
 });
 
@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
   )
     return res.status(400).json({
       status: "error",
-      error: { message: "Enter all details" },
+      message: "Enter all details",
     });
 
   const user = await User.findOne({ username }).lean();
@@ -76,7 +76,7 @@ router.post("/login", async (req, res) => {
   if (!user)
     return res.status(400).json({
       status: "error",
-      error: { message: "Invalid username or password" },
+      message: "Invalid username or password",
     });
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -87,12 +87,12 @@ router.post("/login", async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    return res.status(200).json({ status: "success", data: { token } });
+    return res.status(200).json({ status: "success", data: token });
   }
 
   res.status(400).json({
     status: "error",
-    error: { message: "Invalid username or password" },
+    message: "Invalid username or password",
   });
 });
 

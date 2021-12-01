@@ -4,7 +4,7 @@ const verifyAdmin = (req, res, next) => {
   if (!user.isAdmin) {
     return res.status(403).json({
       status: "error",
-      error: { message: "Access denied" },
+      message: "Access denied",
     });
   }
 
